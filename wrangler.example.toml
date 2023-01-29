@@ -5,12 +5,3 @@ compatibility_date = "2023-01-28"
 kv_namespaces = [
   { binding = "", id="", preview_id="" }
 ]
-
-[vars]
-CLIENT_ID = ''
-CLIENT_SECRET = ''
-REFRESH_TOKEN = ''
-
-[env.production.vars]
-CLIENT_ID = ''
-CLIENT_SECRET = ''

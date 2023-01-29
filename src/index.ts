@@ -1,7 +1,5 @@
 export interface Env {
   SPOTTY_KV: KVNamespace;
-  CLIENT_ID: string;
-  CLIENT_SECRET: string;
 }
 
 function strings2base64(x, y) {
@@ -15,7 +13,7 @@ function strings2base64(x, y) {
   return btoa(binary)
 }
 
-async function fetchData({ client_id, client_secret, access_token }) {
+async function fetchData({ access_token }) {
   const host = 'https://api.spotify.com/';
   const endpoint = 'v1/me/player/currently-playing';
 
@@ -35,8 +33,6 @@ async function fetchData({ client_id, client_secret, access_token }) {
 async function handleRequest(request, env) {
   const {
     SPOTTY_KV: spottyKv,
-    CLIENT_ID: client_id,
-    CLIENT_SECRET: client_secret,
   } = env
 
   const { searchParams } = new URL(request.url)
@@ -44,12 +40,12 @@ async function handleRequest(request, env) {
 
   if (user === 'aidan') {
     const access_token = await spottyKv.get('access_token_aidan')
-    return await fetchData({ client_id, client_secret, access_token })
+    return await fetchData({ access_token })
   }
 
   if (user === 'beno') {
     const access_token = await spottyKv.get('access_token_beno')
-    return await fetchData({ client_id, client_secret, access_token })
+    return await fetchData({ access_token })
   }
 
   else return null
