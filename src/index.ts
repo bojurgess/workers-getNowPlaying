@@ -48,7 +48,15 @@ async function handleRequest(request, env) {
     return await fetchData({ access_token })
   }
 
-  else return null
+  else {
+    init.status = 400
+    return JSON.stringify({
+      error: {
+        status: 400,
+        message: "Bad request"
+      }
+    })
+  }
 }
 let init = {
   headers: {
