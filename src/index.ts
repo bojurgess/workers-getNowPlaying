@@ -2,11 +2,12 @@ export interface Env {
   SPOTTY_KV: KVNamespace;
 }
 
-async function fetchData({ access_token }) {
+async function fetchData({ access_token, market }) {
   const host = 'https://api.spotify.com/';
-  const endpoint = 'v1/me/player/currently-playing';
+  const endpoint = 'v1/me/player/currently-playing/';
+  const searchParams = new URLSearchParams({ market });
 
-  const response = await fetch(`${host}${endpoint}`, {
+  const response = await fetch(`${host}${endpoint}?${searchParams}`, {
     headers: {
       'Authorization': `Bearer ${access_token}`,
     }
@@ -26,15 +27,20 @@ async function handleRequest(request, env) {
 
   const { searchParams } = new URL(request.url)
   let user = searchParams.get('user')
+  let market = searchParams.get('market')
+
+  if (market === null) {
+    market = 'US'
+  }
 
   if (user === 'aidan') {
     const access_token = await spottyKv.get('access_token_aidan')
-    return await fetchData({ access_token })
+    return await fetchData({ access_token, market })
   }
 
   if (user === 'beno') {
     const access_token = await spottyKv.get('access_token_beno')
-    return await fetchData({ access_token })
+    return await fetchData({ access_token, market })
   }
 
   else {
