@@ -2,17 +2,6 @@ export interface Env {
   SPOTTY_KV: KVNamespace;
 }
 
-function strings2base64(x, y) {
-  const bytes = new TextEncoder().encode(`${x}:${y}`)
-
-  let binary = ''
-  const len = bytes.byteLength;
-  for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary)
-}
-
 async function fetchData({ access_token }) {
   const host = 'https://api.spotify.com/';
   const endpoint = 'v1/me/player/currently-playing';
