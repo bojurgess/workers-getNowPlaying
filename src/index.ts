@@ -13,8 +13,12 @@ async function fetchData({ access_token, market }) {
     }
   }).then(async (data) => {
     init.status = data.status
-    const json = await data.json();
-    return JSON.stringify(json)
+    if (data.status !== 204) {
+      const json = await data.json();
+      return JSON.stringify(json)
+    } else {
+      return
+    }
   })
 
   return response;
